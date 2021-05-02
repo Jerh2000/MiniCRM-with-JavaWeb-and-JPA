@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gestión Empleados</title>
+        <style>
+            .media{
+                padding-top: 4px;
+            }
+            .media img{
+                margin-right: 20px;
+            }
+            .media .nombre{
+
+                margin-bottom: 0px;
+            }
+            .media .nombre span{
+                color: #464646;
+            }
+
+            body .ui-datagrid-no-border .ui-datagrid-content {
+                border: none;
+            }
+            body .ui-datagrid .ui-datagrid-header{
+                border: none;
+                background-color:#F7F7F7;
+            }
+            .contenedor{
+                width: 390px;
+                height: 510px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content::-webkit-scrollbar{
+                width: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content ::-webkit-scrollbar-thumb{
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            body .ui-panel .ui-panel-content{
+                border: 0px;
+            }
+            body .ui-layout-unit {
+                border: none;
+            }
+            .tarjeta{
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+                margin-top: 0px;
+                padding: 10px;
+
+                border-radius: 20px;
+            }
+
+            .tarjetaF{
+                margin-top: 0px;
+                padding: 15px;
+                padding-bottom: 10px;
+                border-radius: 20px;
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <!--CONTENEDOR DE LA LISTA DE EMPLEADOS REGISTRADOS-->
+                    <div class="col-md-12" style="background-color:#F7F7F7; text-align: center; width: 390px">
+                        <label class="display-4" style="font-size: 2rem">Empleados</label>
+                    </div>
+                    <div class="contenedor">
+                        <p:dataGrid var="emp" columns="1" class="ui-datagrid-no-border" value="#{empleadoController.empleados}"
+                                    rows="8"  id="empleados">
+                            <div class="media">
+                                <h:graphicImage value="/Imagenes/FotosUsuario/#{emp.id}.png" style="height: 64px; width: 64px"/>
+                                <div class="media-body">
+                                    <p class="nombre lead"><b>#{emp.nombre} #{emp.apellido}
+                                        </b>
+                                    </p>
+                                    <p class="mb-0 lead" style="font-size: 0.9rem">
+                                        Estado: #{emp.estado}
+                                    </p>
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="Bver" value="Ver" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" action="#{empleadoController.consultarInfoEmpleado(emp)}"/>
+                                    <p:tooltip id="toolTipBVer" for="Bver" value="Ver información de empleado" position="top"/>
+                                    <p:tooltip id="toolTipBeditar" for="Beditar" value="Editar empleado" position="top"/>
+                                    <h:commandButton id="Beditar" value="Edit"  image="/Imagenes/Botones/BtnEditar.svg" style="width: 35px; height: 35px" action="#{empleadoController.editarEmpleado(emp)}"/>
+                                </div>
+                            </div>
+                        </p:dataGrid>
+                    </div>
+                </div>
+
+                <!--SECCIÓN DE GESTIÓN-->
+                <div class="col-md-8 mb-0">
+                    <div class="container-fluid">
+                        <div class="text-center mb-0 pb-0"><label class="display-4 mb-2 pb-0" style="font-size: 25px">Gestión Empleado</label></div>
+                        <div class="row">
+                            <!--SECCION DE INFORMACION DE EMPLEADO-->
+
+                            <p:panel rendered="#{empleadoController.mostInfoEmpleado}" class="col-md-6 pl-0 ml-0 mt-0 ui-panel-content">
+                                <div class="tarjeta">
+                                    <div class="d-flex justify-content-center mb-0 pb-0">
+                                        <label class="display-4 text-center" style="font-size: 1.5rem;"><b>Informacion del empleado</b></label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="abs-center col-md-12 d-flex justify-content-center mt-0 pt-0">
+                                            <div style="height: 100px; width: 100px">
+                                                <h:graphicImage value="/Imagenes/FotosUsuario/#{empleadoController.empleado.id}.png" class="img-fluid rounded-circle"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <!--PRIMERA FILA-->
+                                                <div class="col-md-12 d-flex justify-content-center">
+                                                    <label class="lead mb-0 pb-0" style="font-size: 1.2rem">
+                                                        <span class="fa fa-user fa-lg mr-2 mb-0 pb-0"></span>
+                                                        <label class="mb-0 pb-0"><b class="mb-0 pb-0">#{empleadoController.empleado.nombre} #{empleadoController.empleado.apellido}</b>
+                                                        </label>
+                                                        <p style="font-size: 1rem" class="pt-0 mt-0 ml-4">@#{empleadoController.empleado.login}</p>
+                                                    </label>
+                                                </div>
+                                                <!--SEGUNDA FILA-->
+                                                <div class="col-md-7 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-list-alt mr-2 ml-3"></span>
+                                                        <label class="mb-0">C.C #{empleadoController.empleado.identificacion}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-5 mb-0 ml-3 ml-md-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-venus-mars mr-2"></span>
+                                                        <label class="mb-0">#{empleadoController.empleado.sexo}</label>
+                                                    </label>
+                                                </div>
+                                                <!--TERCERA FILA-->
+                                                <div class="col-md-12 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-birthday-cake mr-2 ml-3"></span>
+                                                        <label class="mb-0">#{empleadoController.empleado.fechaNacimiento}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-envelope mr-2 ml-3"></span>
+                                                        <label class="mb-0">#{empleadoController.empleado.email}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-phone fa-lg ml-3"></span>
+                                                        <label class="mb-0">#{empleadoController.empleado.telefono}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-home fa-lg mr-1 ml-3"></span>
+                                                        <label class="mb-0">#{empleadoController.empleado.direccion}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="lead" style="font-size: 1.1rem">
+                                                        <span class="fa fa-check-square fa-lg mr-1 ml-3"></span>
+                                                        <label class="mb-0">#{empleadoController.empleado.estado}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="row d-flex justify-content-center mt-0">
+                                                        <h:commandButton id="Beditar2" value="Editar" action="#{empleadoController.editarEmpleado(empleadoController.empleado)}" class="mr-1" image="/Imagenes/Botones/BtnEditar.svg" style="width: 47px; height: 47px"/>
+                                                        <p:tooltip id="toolTipBEditar2" for="Beditar2" value="Editar empleado" position="top"/>
+                                                        <h:commandButton rendered="#{empleadoController.empleado.estado.equals('Activo')}" id="Binactivar" value="Inactivar" action="#{empleadoController.inactivarCuentaEmpleado(empleadoController.empleado)}" image="/Imagenes/Botones/BtnDesactivar.svg" style="width: 47px; height: 47px"/>
+                                                        <p:tooltip id="toolTipBinactivar" for="Binactivar" value="Inactivar cuenta" position="top"/>
+
+                                                        <h:commandButton rendered="#{empleadoController.empleado.estado.equals('Inactivo')}" id="Bactivar" value="Activar" action="#{empleadoController.activarCuentaEmpleado(empleadoController.empleado)}" image="/Imagenes/Botones/Bregistrar.svg" style="width: 47px; height: 47px"/>
+                                                        <p:tooltip id="toolTipBactivar" for="Bactivar" value="Activar cuenta" position="top"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+
+                            <!--SECCIÓN DE FORMULARIO EMPLEADO-->
+                            <p:panel rendered="#{empleadoController.mostRegistro}" class="abs-center col-md-12 pl-0 ml-0 ui-panel-content">
+
+                                <div class="wrapper tarjetaF">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="nombre">Nombre</label>
+                                            <h:inputText  id="nombre" value="#{empleadoController.empleado.nombre}" class="form-control"></h:inputText>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="apellido">Apellido</label>
+                                            <h:inputText value="#{empleadoController.empleado.apellido}" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="sexo">Sexo</label>
+                                            <p:selectOneRadio unselectable="true" value="#{empleadoController.empleado.sexo}">
+                                                <f:selectItem itemLabel="Masculino" itemValue="Masculino" class="form-control"/>
+                                                <f:selectItem itemLabel="Femenino" itemValue="Femenino" class="form-control"/>
+                                                <f:selectItem itemLabel="Prefiero no decir" itemValue="Indefinido" class="form-control"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="fecha">Fecha de nacimiento</label>
+                                            <p:calendar value="#{empleadoController.empleado.fechaNacimiento}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Dirección</label>
+                                            <h:inputText value="#{empleadoController.empleado.direccion}" class="form-control"></h:inputText>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Teléfono</label>
+                                            <h:inputText value="#{empleadoController.empleado.telefono}"  class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Identificación</label>
+                                            <h:inputText value="#{empleadoController.empleado.identificacion}" class="form-control"></h:inputText>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>E-mail</label>
+                                            <h:inputText value="#{empleadoController.empleado.email}" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Login</label>
+                                            <h:inputText value="#{empleadoController.empleado.login}" class="form-control"></h:inputText>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Password</label>
+                                            <h:inputText value="#{empleadoController.empleado.password}" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-0 pt-0">
+                                        <h:commandButton id="BguardarC" rendered="#{empleadoController.mostModificarEmpleado}" value="Guardar" class="mr-1" image="/Imagenes/Botones/Bguardar.svg" action="#{empleadoController.modificarEmpleado()}" style="width: 47px; height: 47px;outline: transparent"/> 
+                                        <p:tooltip id="toolTipBguardarCambios" for="BguardarC" value="Guardar Cambios" position="top"/>
+                                        <h:commandButton id="Bregistrar" rendered="#{empleadoController.mostRegistrarEmpleado}" value="Registrar" class="mr-1" image="/Imagenes/Botones/Bregistrar.svg" action="#{empleadoController.registrarEmpleado()}" style="width: 47px; height: 47px;outline: transparent"/>
+                                        <p:tooltip id="toolTipBregistrar" for="Bregistrar" value="Registrar Empleado" position="top"/>
+                                        <h:commandButton id="BcancelarF" value="Cancelar" action="#{empleadoController.cancelarRegistroEmpleado()}" image="/Imagenes/Botones/Bcancelar.svg" style="width: 47px; height: 47px; outline: none" />
+                                        <p:tooltip id="toolTipBcancelarF" for="BcancelarF" value="Cancelar" position="top"/>
+                                    </div>
+                                </div>
+
+                            </p:panel>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 fixed-bottom mb-4 mr-5 pr-5" style="text-align: right">
+                        <h:commandButton id="BagregarE" value="Agregar" action="#{empleadoController.nuevoEmpleado()}" image="/Imagenes/Botones/BtnAgregar.svg" style="width: 55px; height: 55px"/>
+                        <p:tooltip id="toolTipBagregar" for="BagregarE" value="Nuevo empleado" position="top" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $('.ui-calendar > input').addClass('form-control');
+            });
+        </script>
+    </h:body>
+</html>
+

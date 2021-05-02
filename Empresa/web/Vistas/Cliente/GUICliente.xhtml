@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"/>
+
+        <style>
+            .boton{
+                width:35px;
+                height:35px;
+                margin: 5px;
+                padding:1px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                border-radius: 50px;
+                font-size:11px;
+                line-height:32px;
+            }
+
+            .contenedor-detalle{
+                width: 100%;
+                height: 440px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor-detalle::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-detalle::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+
+        </style>
+        <title>Inicio#{clienteController.tituloActual}</title>
+    </h:head>
+    <h:body>
+        <p:growl id="messages"/>
+        <!--BARRA DE NAVEGACIÓN CLIENTE-->
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">
+                <h:graphicImage value="/Imagenes/Otras/LogoB.png" width="140" height="37" class="img-fluid"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mr-2">
+                    <li class="nav-item">
+                        <h:commandLink class="nav-link" action="#{clienteController.verVitrinaProductos()}" style="text-decoration: none">
+                            <span class="fas fa-box-open" style="font-size: 1.2rem"></span>
+                            Productos
+                        </h:commandLink>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-2">
+                    <li class="nav-item">
+                        <h:commandLink class="nav-link"  action="#{clienteController.verMisCotizaciones()}" style="text-decoration: none">
+                            <span class="fas fa-clipboard-list" style="font-size: 1.2rem"></span>
+                            Mis cotizaciones
+                        </h:commandLink>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-2">
+                    <li class="nav-item">
+                        <h:commandLink class="nav-link" action="#{clienteController.verMisCompras()}"  style="text-decoration: none">
+                            <span class="fas fa-shopping-basket" style="font-size: 1.2rem"></span>
+                            Mis compras
+                        </h:commandLink>
+                    </li>
+                </ul>
+
+                <!--MENUS DE DE USUARIO-->
+                <div class="my-2 my-lg-0 ml-auto">
+                    <label for="nombre" class="mr-sm-2 text-white">#{usuarioController.cliente.nombre} #{usuarioController.cliente.apellido}</label>
+                    <h:commandButton image="/Imagenes/FotosUsuario/#{usuarioController.cliente.id}.png" class="btn btn-primary mr-2 boton" action="#{clienteController.verPerfilCliente()}"/>
+
+
+                    <p:commandLink update="detcom" onclick="PF('carritoCompra').show()" title="Mi carrito" class="mr-2 text-white">
+                        <h:graphicImage value="/Imagenes/Botones/carritoc.svg" style="width: 30px; height: 30px; margin-right: 0px">
+                        </h:graphicImage>
+                        <span class="badge badge-light ml-0">#{ventaController.contadorProductosCarrito}</span>
+                    </p:commandLink>
+
+                    <p:commandLink update="detcot" onclick="PF('carritoCotizaciones').show()" title="Mi cotización" class="mr-2 text-white">
+                        <h:graphicImage value="/Imagenes/Botones/BtnCotizacion.svg" style="width: 30px; height: 30px; margin-right: 0px">
+                        </h:graphicImage>
+                        <span class="badge badge-light ml-0">#{cotizacionController.contadorCotizacion}</span>
+                    </p:commandLink>
+
+                    <h:commandButton image="/Imagenes/Botones/logout.svg" action="#{usuarioController.cerrar()}" class="btn btn-danger ml-2 boton"/>
+                </div>
+            </div>
+        </div>
+
+        <br></br>
+
+        <!--CONTENEDOR DEL CONTENIDO DE CADA OPCION DE MENU-->
+
+        <div class="mt-5">
+            <p:layout style="min-width:400px;height:570px;">
+                <p:layoutUnit position="west" resizable="false" size="0" minSize="0" maxSize="0" visible="false" >
+
+                    <h:commandButton value="Productos" image="/Imagenes/Botones/Bproducto.png" style="width: 70px; height:70px" action="#{clienteController.verVitrinaProductos()}"/>
+
+                    <p:separator/>
+                    <h:commandButton value="Productos" image="/Imagenes/Botones/Bcotizacion.png" style="width: 70px; height:70px" action="#{clienteController.verMisCotizaciones()}"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <ui:include src="#{clienteController.paginaActual}">
+
+                    </ui:include>
+                </p:layoutUnit>
+            </p:layout>
+        </div>
+
+        <!--VENTANA DE DIALOGO DE DETALLE DE COTIZACIONES-->
+        <p:dialog header="Carrito de cotizaciones" widgetVar="carritoCotizaciones" resizable="false" width="1100">
+            <div class="contenedor-detalle m-0 p-0">
+                <p:dataGrid var="detalleC" columns="1" class="ui-datagrid-no-border m-0 p-0" value="#{cotizacionController.detcotizaciones}"
+                            rows="500" id="detcot"  emptyMessage="No ha seleccionado una cotización">
+
+                    <div class="container-fluid m-0 p-0 mt-2">
+                        <div class="row m-0 p-0">
+                            <div class="col-md-2 d-flex justify-content-center">
+                                <div class="row">
+                                    <div style="max-height: 110px; max-width: 100px;">
+                                        <h:graphicImage value="/Imagenes/Productos/#{detalleC.producto.id}.png" class="img-fluid"/>
+                                    </div>
+                                    <div class="col-md-12 ml-3">
+
+                                        <h:commandButton value="Quit" image="/Imagenes/Botones/Bcancelar.svg" action="#{cotizacionController.quitarProductoDeCotizacion(detalleC)}" style="width: 30px; height: 30px"/>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 m-0 p-0">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-list-alt fa-lg mr-2"></span>
+                                            <label class="mb-0" style="font-size: 1rem"><b>SN - #{detalleC.producto.codigosn}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-dropbox fa-lg mr-2 mb-0 pb-0"></span>
+                                            <label class="mb-0 pb-0" style="font-size: 1rem"><b>#{detalleC.producto.nombre}</b>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-tags fa-lg mr-2"></span>
+                                            <label class="mb-0" style="font-size: 1rem"><b>#{detalleC.producto.marca}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-calendar fa-lg mr-2"></span>
+                                            <label class="mb-0 pl-1" style="font-size: 1rem"><b>#{detallC.producto.garantia}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="lead" style="font-size: 1rem">
+                                            <span class="fa fa-paint-brush fa-lg mr-2"></span>
+                                            <label class="mb-0 p-0" style="font-size: 1rem"><b>#{detallC.producto.color}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                            <label class="lead m-2 ml-0" style="font-size: 1rem">Cantidad:</label>
+                                            <p:spinner value="#{detalleC.cantidad}" style="width: 60px" max="1" min="1" >
+                                                <p:ajax update="act" process="@this" />
+                                            </p:spinner>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                            <div class="row">
+                                                <div>
+                                                    <label class="lead m-2" style="font-size: 1rem">Propuesta:</label>
+                                                </div>
+                                                <div>
+                                                    <h:inputText value="#{detalleC.propuesta}" class="form-control w-75">
+                                                        <p:ajax event="keyup" update="act"/>
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10 mt-2">
+                                        <h:outputLabel id="act">
+                                            <label class="lead mb-0 pb-2 pr-5" style="font-size: 1.1rem">
+                                                <label class="mr-2">Subtotal:</label>
+                                                <h:outputText value="#{detalleC.subtotal()}" class="mb-0 p-0 font-weight-bold" style="font-size: 1.2rem">
+                                                    <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                                </h:outputText>
+                                            </label>
+                                            <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                <label class="mr-2">Subtotal propuesto:</label>
+                                                <h:outputText value="#{detalleC.subtotalPropuesta()}" class="mb-0 p-0 font-weight-bold" style="font-size: 1.2rem">
+                                                    <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                                </h:outputText>
+
+                                            </label>
+                                        </h:outputLabel>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 m-0 p-0">
+                                <label class="lead" style="font-size: 1rem"><b>Descripción</b></label>
+                                <h:inputTextarea value="#{detalleC.descripcion}" class="form-control" style="max-height: 100px; min-height: 100px" />
+                            </div>
+                        </div>
+                        <p:separator/>
+                    </div>
+
+                </p:dataGrid>
+            </div>
+            <h:commandButton value="Cotizar" action="#{cotizacionController.registrarCotizaciones()}" class="btn btn-success" />
+        </p:dialog>
+
+
+
+
+
+        <!--VENTANA DE DIALOGO DE DETALLE DE VENTA-->
+        <p:dialog header="Carrito de compra" widgetVar="carritoCompra" resizable="false" width="1100">
+            <div class="contenedor-detalle m-0 p-0">
+                <p:dataGrid var="detalle" columns="1" class="ui-datagrid-no-border m-0 p-0" value="#{ventaController.detallesVentas}"
+                            rows="500" id="detcom"  emptyMessage="No ha seleccionado productos">
+
+                    <div class="container-fluid m-0 p-0 mt-2">
+                        <div class="row m-0 p-0">
+                            <div class="col-md-2 d-flex justify-content-center">
+                                <div class="row">
+                                    <div style="max-height: 110px; max-width: 100px;">
+                                        <h:graphicImage value="/Imagenes/Productos/#{detalle.producto.id}.png" class="img-fluid"/>
+                                    </div>
+                                    <div class="col-md-12 ml-3">
+
+                                        <h:commandButton value="Quit" image="/Imagenes/Botones/Bcancelar.svg" action="#{ventaController.quitarProductoDeCarrito(detalle)}" style="width: 30px; height: 30px"/>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 m-0 p-0">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-list-alt fa-lg mr-2"></span>
+                                            <label class="mb-0" style="font-size: 1rem"><b>SN - #{detalle.producto.codigosn}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-dropbox fa-lg mr-2 mb-0 pb-0"></span>
+                                            <label class="mb-0 pb-0" style="font-size: 1rem"><b>#{detalle.producto.nombre}</b>
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-tags fa-lg mr-2"></span>
+                                            <label class="mb-0" style="font-size: 1rem"><b>#{detalle.producto.marca}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="lead mb-0 pb-1" style="font-size: 1rem">
+                                            <span class="fa fa-calendar fa-lg mr-2"></span>
+                                            <label class="mb-0 pl-1" style="font-size: 1rem"><b>#{detalle.producto.garantia}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="lead" style="font-size: 1rem">
+                                            <span class="fa fa-paint-brush fa-lg mr-2"></span>
+                                            <label class="mb-0 p-0" style="font-size: 1rem"><b>#{detalle.producto.color}</b></label>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                            <label class="lead m-2 ml-0" style="font-size: 1rem">Cantidad:</label>
+                                            <p:spinner value="#{detalle.cantidad}" style="width: 60px" max="1" min="1" >
+                                                <p:ajax update="act" process="@this" />
+                                            </p:spinner>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-10 mt-2">
+                                        <h:outputLabel id="act">
+                                            <label class="lead mb-0 pb-2 pr-5" style="font-size: 1.1rem">
+                                                <label class="mr-2">Subtotal:</label>
+                                                <h:outputText value="#{detalle.producto.precio}"  class="mb-0 p-0 font-weight-bold" style="font-size: 1.2rem">
+                                                    <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                                </h:outputText>
+                                            </label>
+                                            
+                                        </h:outputLabel>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <p:separator/>
+                    </div>
+
+                </p:dataGrid>
+            </div>
+            <h:commandButton value="Comprar" action="#{ventaController.registrarVentaDeProductos()}" class="btn btn-success" />
+        </p:dialog>
+
+
+    </h:body>
+</html>
+

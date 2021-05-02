@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Mi perfil</title>
+        <style>
+            .tarjeta{
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+                margin-top: 0px;
+                padding: 10px;
+                padding-top: 2px;
+                padding-bottom: 0;
+                margin-bottom: 0px;
+                height: auto;
+                border-radius: 20px;
+                width: 680px;   
+            }
+            body .ui-layout-unit {
+                border: none;
+            }
+            .ui-layout-unit .ui-layout-unit-content::-webkit-scrollbar{
+                width: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content ::-webkit-scrollbar-thumb{
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            body .ui-panel .ui-panel-content{
+                border: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:dialog header="Subir foto" id="photo" widgetVar="uploadPhoto" resizable="false" width="300">
+            <div class="d-flex justify-content-center mb-0 pb-0">
+                <p:fileUpload value="#{usuarioController.fileimages}"  mode="simple" skinSimple="true" style="height: 60px" class="mb-0 pt-0"/>
+            </div>
+            <div class="d-flex justify-content-center mt-0 pt-0">
+                <h:commandButton class="btn btn-success mb-0 pt-0" value="Subir" action="#{usuarioController.upload(usuarioController.usuario)}"/>
+            </div>
+        </p:dialog>
+
+        <div class="container d-flex justify-content-center">
+            <div class="tarjeta">
+                <div class="container mt-0">
+                    <div class="lead d-flex justify-content-center">
+                        <label class="lead font-weight-bold" style="font-size: 2rem">Mi perfil</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="max-height: 205px; max-width: 205px; min-height: 205px; min-width: 205px;">
+                                <h:graphicImage value="/Imagenes/FotosUsuario/#{usuarioController.administrador.id}.png" class="img-fluid rounded-circle"/>
+                            </div>
+                            <div class="d-flex justify-content-center mt-2">
+                                <p:commandLink onclick="PF('uploadPhoto').show()">
+                                    <h:graphicImage value="/Imagenes/Botones/BtnNuevaFotoUser.svg" style="width: 47px; height: 47px"/>
+                                </p:commandLink>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="lead mb-0 pb-0" style="font-size: 1.6rem">
+                                        <span class="fa fa-user fa-lg mr-2 mb-0 pb-0"></span>
+                                        <label class="mb-0 pb-0"><b class="mb-0 pb-0">#{usuarioController.administrador.nombre} #{usuarioController.administrador.apellido}</b>
+                                        </label>
+                                        <p style="font-size: 1rem" class="pt-0 mt-0 ml-4">@#{usuarioController.administrador.login}</p>
+                                    </label>
+                                </div>
+                                <div class="col-md-7">
+                                    <label class="lead" style="font-size: 1.1rem">
+                                        <span class="fa fa-list-alt mr-2"></span>
+                                        <label class="mb-0">C.C #{usuarioController.administrador.identificacion}</label>
+                                    </label>
+                                </div>
+                                <div class="col-md-5 mb-0 ml-3 ml-md-0 pb-0">
+                                    <label class="lead" style="font-size: 1.1rem">
+                                        <span class="fa fa-venus-mars mr-2"></span>
+                                        <label class="mb-0">#{usuarioController.administrador.sexo}</label>
+                                    </label>
+                                </div>
+                                <div class="col-md-7 mb-0 pb-0">
+                                    <label class="lead" style="font-size: 1.1rem">
+                                        <span class="fa fa-birthday-cake mr-2"></span>
+                                        <label class="mb-0">#{usuarioController.administrador.fechaNacimiento}</label>
+                                    </label>
+                                </div>
+                                <div class="col-md-5 mb-0 pb-0">
+                                    <label class="lead" style="font-size: 1.1rem">
+                                        <span class="fa fa-phone fa-lg mr-2"></span>
+                                        <label class="mb-0">#{usuarioController.administrador.telefono}</label>
+                                    </label>
+                                </div>
+                                <div class="col-md-12 mb-0 pb-0">
+                                    <label class="lead" style="font-size: 1.1rem">
+                                        <span class="fa fa-envelope mr-2"></span>
+                                        <label class="mb-0">#{usuarioController.administrador.email}</label>
+                                    </label>
+                                </div>
+                                <div class="col-md-12 mb-0 pb-0">
+                                    <label class="lead" style="font-size: 1.1rem">
+                                        <span class="fa fa-home fa-lg mr-1 "></span>
+                                        <label class="mb-0">#{usuarioController.administrador.direccion}</label>
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mr-auto">
+                                        <div class="row">
+                                            <h:commandButton class="mr-2" image="/Imagenes/Botones/BtnEditar.svg" style="width: 47px; height: 47px" action="#{usuarioController.mostrarEditarUsuario()}"/>
+                                            <h:commandButton image="/Imagenes/Botones/BtnCambioPassword.svg" style="width: 47px; height: 47px" action="#{usuarioController.mostrarEditarContrasena()}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <p:panel class="pb-0 mb-0 mt-0" rendered="#{usuarioController.mostBanner}">
+                    <div class="align-self-center">
+                        <div class="d-flex justify-content-center">
+                            <label class="display-4" style="font-size: 1.5rem">¡Todo esta en orden!</label>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div style="max-height: 200px; max-width: 200px" >
+                                <h:graphicImage value="/Imagenes/Otras/like.png" style="" class="img-fluid" />
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:panel rendered="#{usuarioController.mostEditarUsuario}" class="mt-3">
+                    <div class="container">
+                        <!--Seccion de editar cliente-->
+                        <div class="text-center">
+                            <label class="lead font-weight-bold" style="font-size: 1.6rem">Editar perfil</label>
+                        </div>
+                        <div class="row">
+                            <div class="form-row col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label for="nombre">Nombre</label>
+                                    <h:inputText a:placeholder="Escribe tu nombre..." id="nombre" value="#{usuarioController.administradorEditar.nombre}" class="form-control"></h:inputText>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="apellido">Apellido</label>
+                                    <h:inputText value="#{usuarioController.administradorEditar.apellido}" class="form-control"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="form-row col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label for="fecha">Fecha de nacimiento</label>
+                                    <p:calendar value="#{usuarioController.administradorEditar.fechaNacimiento}"/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="sexo">Sexo</label>
+                                    <p:selectOneRadio unselectable="true" value="#{usuarioController.administradorEditar.sexo}">
+                                        <f:selectItem itemLabel="M" itemValue="Masculino" class="form-control"/>
+                                        <f:selectItem itemLabel="F" itemValue="Femenino" class="form-control"/>
+                                        <f:selectItem itemLabel="Personalizado" itemValue="Indefinido" class="form-control"/>
+                                    </p:selectOneRadio>
+                                </div>
+                            </div>
+                            <div class="form-row col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label>Dirección</label>
+                                    <h:inputText value="#{usuarioController.administradorEditar.direccion}" class="form-control"></h:inputText>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Teléfono</label>
+                                    <h:inputText value="#{usuarioController.administradorEditar.telefono}" class="form-control"></h:inputText>
+                                </div>
+                            </div>
+
+                            <div class="form-row col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label>Identificación</label>
+                                    <h:inputText value="#{usuarioController.administradorEditar.identificacion}" class="form-control"></h:inputText>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>E-mail</label>
+                                    <h:inputText value="#{usuarioController.administradorEditar.email}" class="form-control"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="form-row col-md-12 d-flex justify-content-center pb-2">
+                                <h:commandButton class="mr-2" image="/Imagenes/Botones/Bguardar.svg" style="width: 47px; height: 47px" action="#{usuarioController.guardarCambiosDeUsuarioE()}"/>
+                                <h:commandButton image="/Imagenes/Botones/Bcancelar.svg" style="width: 47px; height: 47px" action="#{usuarioController.cancelarEditarUsuario()}"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+                <!--EDITAR CONSTRASEÑA FORMULARIO-->
+                <p:panel rendered="#{usuarioController.mostEditarContrasena}">
+                    <div class="container mt-3">
+                        <div class="text-center">
+                            <label class="lead font-weight-bold" style="font-size: 1.6rem">Cambiar contraseña</label>
+                        </div>
+                        <div class="row">
+                            <div class="form-row col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label for="contrasenaActual">Contraseña actual</label>
+                                    <h:inputSecret value="#{usuarioController.contrasenaActual}" class="form-control"/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="nuevacontrasena">Nueva contraseña</label>
+                                    <h:inputSecret value="#{usuarioController.nuevaContrasena}" class="form-control"/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="repetircontrasena">Repetir nueva contraseña</label>
+                                    <h:inputSecret value="#{usuarioController.repetirNuevaContrasena}" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-row col-md-12 d-flex justify-content-center pb-2">
+                                <h:commandButton class="mr-2" image="/Imagenes/Botones/Bguardar.svg" style="width: 47px; height: 47px" action="#{usuarioController.guardarNuevaContrasena()}"/>
+                                <h:commandButton image="/Imagenes/Botones/Bcancelar.svg" style="width: 47px; height: 47px" action="#{usuarioController.cancelarEditarUsuario()}"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $('.ui-calendar > input').addClass('form-control');
+            });
+        </script>
+    </h:body>
+</html>

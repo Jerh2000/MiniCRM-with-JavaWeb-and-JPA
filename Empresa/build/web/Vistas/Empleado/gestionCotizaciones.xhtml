@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <style>
+            .companyHeaderGrid.ui-panelgrid>*>tr,
+            .companyHeaderGrid.ui-panelgrid>*>tr>td {
+                border: none;
+            }
+
+            .media{
+                padding-top: 4px;
+            }
+            .media img{
+                margin-right: 20px;
+            }
+            .media .nombre{
+
+                margin-bottom: 0px;
+            }
+            .media .nombre span{
+                color: #464646;
+            }
+            .ui-layout-unit {
+                border: 0;
+            }
+            body .ui-datagrid-no-border .ui-datagrid-content {
+                border: none;
+            }
+            body .ui-datagrid .ui-datagrid-header{
+                border: none;
+                background-color:#F7F7F7;
+            }
+            .contenedor{
+                width: 100%;
+                height: 460px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .contenedor-detalle{
+                width: 100%;
+                height: 430px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor-detalle::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-detalle::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .contenedor-descripcion{
+                height: 100px;
+                overflow: auto;
+            }
+            .contenedor-descripcion::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-descripcion::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+            .ui-layout-unit .ui-layout-unit-content::-webkit-scrollbar{
+                width: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content ::-webkit-scrollbar-thumb{
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+
+            body .ui-panel .ui-panel-content{
+                border: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            body .ui-layout-unit {
+                border: none;
+            }
+            body .ui-separator{
+                border-color: #ECE8E8;
+            }
+
+        </style>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <!--CONTENEDOR DE LA LISTA DE COTIZACIONES -->
+                    <div class="col-md-12" style="background-color:#F7F7F7; text-align: center;">
+                        <div class="col-md-12">
+                            <label class="display-4 mt-0 pt-0 mb-0" style="font-size: 1.2rem">Bandeja de cotizaciones</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="display-4 mt-0 pt-0" style="font-size: 1rem">#{cotizacionController.tipoCotizacion}</label>
+                        </div>
+                    </div>
+                    <div class="contenedor">
+
+                        <p:dataGrid rendered="#{cotizacionController.mostCotizaciones}" var="cot" columns="1" class="ui-datagrid-no-border" value="#{cotizacionController.cotizaciones}"
+                                    rows="500"  id="cotizacionesT" emptyMessage="Aun no hay contizaciones">
+                            <!--PANEL DE TODAS COTIZACIONES-->
+
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="bg-primary" style="width: 10px; border-radius: 4px;">
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="lead mb-0"><b>Codigo: #{cot.codigo}</b>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="lead mb-0" style="font-size: 1rem"><b>Fecha: #{cot.fecha}</b></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="nombre lead" style="font-size: 1rem">Cliente: #{cot.cliente.nombre} #{cot.cliente.apellido} </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="BverCoti" value="Ver Cotizacion" action="#{cotizacionController.obtenerDetalleCotizacionEmpleado(cot)}" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" />
+                                    <p:tooltip id="toolTipBVerCoti" for="BverCoti" value="Ver detalles de cotización" position="top"/>
+                                </div>
+                            </div>
+                        </p:dataGrid>
+
+                        <p:dataGrid rendered="#{cotizacionController.mostCotizacionesS}" var="cotS" columns="1" class="ui-datagrid-no-border" value="#{cotizacionController.cotizacionesSolicitadas}"
+                                    rows="500"  id="cotizacionesSo" emptyMessage="Aun no hay contizaciones">
+                            <!--PANEL DE COTIZACIONES SOLICITADAS-->
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="bg-warning" style="width: 10px; border-radius: 4px;">
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="lead mb-0"><b>Codigo: #{cotS.codigo}</b>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="lead mb-0" style="font-size: 1rem"><b>Fecha: #{cotS.fecha}</b></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="nombre lead" style="font-size: 1rem">Cliente: #{cotS.cliente.nombre} #{cotS.cliente.apellido} </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="BverCoti" value="Ver Cotizacion" action="#{cotizacionController.obtenerDetalleCotizacionEmpleado(cotS)}" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" />
+                                    <p:tooltip id="toolTipBVerCoti" for="BverCoti" value="Ver detalles de cotización" position="top"/>
+                                </div>
+                            </div>
+
+
+                        </p:dataGrid>
+
+                        <!--PANEL DE COTIZACIONES APROBADAS-->
+                        <p:dataGrid rendered="#{cotizacionController.mostCotizacionesA}" var="cotA" columns="1" class="ui-datagrid-no-border" value="#{cotizacionController.cotizacionesAprobadas}"
+                                    rows="500"  id="cotizacionesAp" emptyMessage="Aun no hay contizaciones">
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="bg-success" style="width: 10px; border-radius: 4px;">
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="lead mb-0"><b>Codigo: #{cotA.codigo}</b>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="lead mb-0" style="font-size: 1rem"><b>Fecha: #{cotA.fecha}</b></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="nombre lead" style="font-size: 1rem">Cliente: #{cotA.cliente.nombre} #{cotA.cliente.apellido} </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="BverCoti" value="Ver Cotizacion" action="#{cotizacionController.obtenerDetalleCotizacionEmpleado(cotA)}" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" />
+                                    <p:tooltip id="toolTipBVerCoti" for="BverCoti" value="Ver detalles de cotización" position="top"/>
+                                </div>
+                            </div>
+                        </p:dataGrid>
+
+                        <!--PANEL DE COTIZACIONES RECHAZADAS-->
+                        <p:dataGrid rendered="#{cotizacionController.mostCotizacionesR}" var="cotR" columns="1" class="ui-datagrid-no-border" value="#{cotizacionController.cotizacionesRechazadas}"
+                                    rows="500"  id="cotizacionesRe" emptyMessage="Aun no hay contizaciones">
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="bg-danger" style="width: 10px; border-radius: 4px;">
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="lead mb-0"><b>Codigo: #{cotR.codigo}</b>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="lead mb-0" style="font-size: 1rem"><b>Fecha: #{cotR.fecha}</b></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="nombre lead" style="font-size: 1rem">Cliente: #{cotR.cliente.nombre} #{cotR.cliente.apellido} </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="BverCoti" value="Ver Cotizacion" action="#{cotizacionController.obtenerDetalleCotizacionEmpleado(cotR)}" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" />
+                                    <p:tooltip id="toolTipBVerCoti" for="BverCoti" value="Ver detalles de cotización" position="top"/>
+                                </div>
+                            </div>
+                        </p:dataGrid>
+                    </div>
+
+                    <!--Botones de filtros-->
+                    <div class="d-flex justify-content-center mt-2 mb-0">
+                        <label class="lead mr-3"><b>Filtros</b></label>
+                        <h:commandButton id="BTodasCoti" value="T" image="/Imagenes/Botones/BtnTodasCotizaciones.svg" action="#{cotizacionController.mostrarTodasCotizaciones()}" style="width: 35px; height: 35px; margin-right: 5px"/>
+                        <p:tooltip id="toolTipBTodaCoti" for="BTodasCoti" value="Todas" position="top" />
+                        <h:commandButton id="BSoliCoti" value="S" image="/Imagenes/Botones/BtncotizacionesS.svg" action="#{cotizacionController.mostratCotizacionesSolicitadas()}" style="width: 35px; height: 35px; margin-right: 5px"/>
+                        <p:tooltip id="toolTipBSoliCoti" for="BSoliCoti" value="Solicitadas" position="top" />
+                        <h:commandButton id="BAproCoti" value="A" image="/Imagenes/Botones/BtncotizacionesA.svg" action="#{cotizacionController.mostratCotizacionesAprobadas()}" style="width: 35px; height: 35px; margin-right: 5px"/>
+                        <p:tooltip id="toolTipBAproCoti" for="BAproCoti" value="Aprobadas" position="top" />
+                        <h:commandButton id="BRechaCoti" value="R" image="/Imagenes/Botones/BtncotizacionesR.svg" action="#{cotizacionController.mostratCotizacionesRechazadas()}" style="width: 35px; height: 35px"/>
+                        <p:tooltip id="toolTipBRechaCoti" for="BRechaCoti" value="Rechazadas" position="top" />
+                    </div>
+                </div>
+
+
+                <!--Seccion de detalles de cotización-->
+                <div class="container col-md-8 m-0 p-0">
+                    <div class="d-flex justify-content-center">
+                        <label class="lead">Detalles de cotización <b> #{cotizacionController.codigoCotizacion}</b></label>
+                    </div>
+                    <div class="contenedor-detalle m-0 p-0">
+                        <p:dataGrid  var="detalle" columns="1" class="ui-datagrid-no-border m-0 p-0" value="#{cotizacionController.detcotizaciones}"
+                                     rows="500"  id="detcotizaciones" emptyMessage="No hay cotizaciones seleccionadas">
+                            <div class="container m-0 p-0 mt-2">
+                                <div class="row m-0">
+                                    <div class="col-md-3 d-flex justify-content-center">
+                                        <div style="max-height: 130px; max-width: 120px;">
+                                            <h:graphicImage value="/Imagenes/Productos/#{detalle.producto.id}.png" class="img-fluid"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8" >
+                                        <div class="row">
+                                            <div class="col-md-8 m-0 p-0">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-list-alt fa-lg mr-2"></span>
+                                                            <label class="mb-0" style="font-size: 1rem"><b>SN - #{detalle.producto.codigosn}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-dropbox fa-lg mr-2 mb-0 pb-0"></span>
+                                                            <label class="mb-0 pb-0" style="font-size: 1rem"><b>#{detalle.producto.nombre}</b>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-tags fa-lg mr-2"></span>
+                                                            <label class="mb-0" style="font-size: 1rem"><b>#{detalle.producto.marca}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-calendar fa-lg mr-2"></span>
+                                                            <label class="mb-0 pl-1" style="font-size: 1rem"><b>#{detalle.producto.garantia}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="lead" style="font-size: 1rem">
+                                                            <span class="fa fa-paint-brush fa-lg mr-2"></span>
+                                                            <label class="mb-0 p-0" style="font-size: 1rem"><b>#{detalle.producto.color}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                            <span class="fas fa-hand-holding-usd mr-1" style="font-size: 1.5rem"></span>
+                                                            <h:outputText value="#{detalle.propuesta}" class="mb-0 pl-1" style="font-size: 1rem">
+                                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                                            </h:outputText>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                            <span class="fa fa-dollar fa-lg mr-1"></span>
+                                                            <h:outputText value="#{detalle.producto.precio}" class="mb-0 pl-1" style="font-size: 1rem">
+                                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                                            </h:outputText>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="row">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p:separator/>
+                            </div>
+
+                        </p:dataGrid>
+                    </div>
+                    <!--SECCIÓN DE VALORES Y CUENTAS Y APROBACION; RECHAZO-->
+                    <div class="col-md-12 mt-1">
+                        <p:panel class="m-0 p-0">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="lead mb-0 mr-2 font-weight-bold" style="font-size: 1rem">Subtotal:</label> 
+                                            <h:outputText value="#{cotizacionController.subTotal}" class="lead mb-0 font-weight-bold" style="font-size: 1rem">
+                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                            </h:outputText>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <label class="lead mb-0 mr-1 font-weight-bold" style="font-size: 1rem">Subtotal Propuesto: </label>
+                                            <h:outputText value="#{cotizacionController.subTotalPropuesto}" class="lead mb-0 font-weight-bold" style="font-size: 1rem">
+                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                            </h:outputText>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="lead mb-0 mr-1 font-weight-bold" style="font-size: 1rem">Total:</label>
+                                            <h:outputText value="#{cotizacionController.totalIVA}" class="lead mb-0 font-weight-bold" style="font-size: 1rem">
+                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                            </h:outputText>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <label class="lead mb-0 mr-1 font-weight-bold" style="font-size: 1rem">Total Propuesto:</label>
+                                            <h:outputText value="#{cotizacionController.totalPropuestoIVA}" class="lead mb-0 font-weight-bold" style="font-size: 1rem">
+                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ml-auto mb-0 pb-0">
+                                    <p:panel rendered="#{cotizacionController.mostCotizacionesS}" class="mb-0 pb-0">
+                                        <div class="row mb-0 pb-0">
+                                            <div class="mb-0 pb-0">
+                                                <h:commandButton id="Baprobar" image="/Imagenes/Botones/BtncotizacionesA.svg" value="Aprobar" class="mr-2" rendered="#{not empty cotizacionController.cotizacion.id}" action="#{cotizacionController.aprobarCotizacion()}" style="width: 50px; height: 50px"/>
+                                                <p:tooltip id="toolTipBaprobar" for="Baprobar" value="Aprobar Cotización" position="top"/>
+                                            </div>
+                                            <div class="mb-0 pb-0">
+                                                <h:commandButton id="Brechazar" image="/Imagenes/Botones/BtncotizacionesR.svg" value="Rechazar" rendered="#{not empty cotizacionController.cotizacion.id}" action="#{cotizacionController.rechazarCotizacion()}" style="width: 50px; height: 50px"/>
+                                                <p:tooltip id="toolTipBrechazar" for="Brechazar" value="Rechazar Cotización" position="top"/>
+                                            </div>
+                                        </div>
+                                    </p:panel>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p:growl id="mcotizacion"/>
+
+    </h:body>
+</html>
+

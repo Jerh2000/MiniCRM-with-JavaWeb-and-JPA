@@ -1,0 +1,473 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Gestión Producto Empleado</title>
+        <style>
+            .media{
+                padding-top: 4px;
+            }
+            .media img{
+                margin-right: 20px;
+            }
+            .media .nombre{
+
+                margin-bottom: 0px;
+            }
+            .media .nombre span{
+                color: #464646;
+            }
+            .ui-layout-unit {
+                border: 0;
+            }
+            body .ui-datagrid-no-border .ui-datagrid-content {
+                border: none;
+            }
+            body .ui-datagrid .ui-datagrid-header{
+                border: none;
+                background-color:#F7F7F7;
+            }
+            .contenedor{
+                width: 100%;
+                height: 510px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .contenedor-descripcion{
+                height: 100px;
+                overflow: auto;
+            }
+            .contenedor-descripcion::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-descripcion::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+            .ui-layout-unit .ui-layout-unit-content::-webkit-scrollbar{
+                width: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content ::-webkit-scrollbar-thumb{
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+
+            body .ui-panel .ui-panel-content{
+                border: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            body .ui-layout-unit {
+                border: none;
+            }
+            .tarjeta{
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+                margin-top: 0px;
+                padding: 10px;
+
+                padding-bottom: 0;
+                margin-bottom: 0px;
+
+                border-radius: 20px;
+            }
+            .tarjetaF{
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+                margin-top: 0px;
+                padding: 10px;
+                padding-bottom: 0;
+                margin-left: 0px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                height: 497px;
+                width: 100%;
+                border-radius: 20px;
+            }
+            body .ui-selectonemenu{
+                display: block;
+                width: 100%;
+
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <!--CONTENEDOR DE LA LISTA DE PRODUCTOS REGISTRADOS-->
+                    <div class="col-md-12" style="background-color:#F7F7F7; text-align: center;">
+                        <label  class="display-4 py-2" style="font-size: 1.3rem">Productos registrados</label>
+                    </div>
+                    <div class="contenedor">
+                        <p:dataGrid var="pro" columns="1" class="ui-datagrid-no-border" value="#{productoController.productos}"
+                                    rows="500"  id="empleados">
+                            <div class="media">
+                                <h:graphicImage value="/Imagenes/Productos/#{pro.id}.png" style="height: 64px; width: 64px"/>
+                                <div class="media-body">
+                                    <p class="nombre lead"><b>#{pro.nombre}
+                                        </b>
+                                    </p>
+                                    <p class="mb-0 lead" style="font-size: 0.9rem">
+                                        Marca: #{pro.marca}
+                                    </p>
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="Bver" value="Ver" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" action="#{productoController.mostrarInfoProducto(pro)}" />
+                                    <p:tooltip id="toolTipBVer" for="Bver" value="Ver información del producto" position="top"/>
+                                    <h:commandButton id="BeditarP" value="Edit"  image="/Imagenes/Botones/BtnEditar.svg" style="width: 35px; height: 35px" action="#{productoController.editarProducto(pro)}"/>
+                                    <p:tooltip id="toolTipBeditarP" for="BeditarP" value="Editar producto" position="top"/>
+                                </div>
+                            </div>
+                        </p:dataGrid>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 mb-0 mt-0">
+                    <div class="container">
+                        <div class="row">
+                            <!--PANEL DE REGISTRO DE PRODUCTO-->
+                            <p:panel rendered="#{productoController.mostRegistroProducto}">
+                                <div class="text-center mb-3">
+
+                                    <h:outputText rendered="#{productoController.mostBtnRegistrarProducto}" class="display-4 mb-2" style="font-size: 2rem" value="Registrar producto"/>
+                                    <h:outputText rendered="#{productoController.mostBtnEditarProducto}" class="display-4 mb-2" style="font-size: 2rem" value="Editar producto"/>
+                                </div>
+                                <div class="row">
+                                    <div class=" form-row col-md-8">
+                                        <div class=" col-md-6">
+                                            <label>Codigo SN</label>
+                                            <h:inputText value="#{productoController.producto.codigosn}" class="form-control"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="nombre">Nombre</label>
+                                            <h:inputText value="#{productoController.producto.nombre}" class="form-control"/>
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <label for="categoria">Categoria</label>
+                                            <p:selectOneMenu value="#{productoController.producto.categoria}">
+                                                <f:selectItem itemLabel="Seleciona una" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="PC" itemValue="PC"/>
+                                                <f:selectItem itemLabel="PC All in One" itemValue="PCAIO"/>
+                                                <f:selectItem itemLabel="Laptop" itemValue="Laptop"/>
+                                                <f:selectItem itemLabel="Celular" itemValue="Celular"/>
+                                                <f:selectItem itemLabel="Televisor" itemValue="Televisor"/>
+                                                <f:selectItem itemLabel="Impresora" itemValue="Impresora"/>
+                                                <f:selectItem itemLabel="Audifono" itemValue="Audifono"/>
+                                                <f:selectItem itemLabel="Tablet" itemValue="Tablet"/>
+                                                <f:selectItem itemLabel="Consola" itemValue="Consola"/>
+                                                <f:selectItem itemLabel="SmartWatch" itemValue="SmartWatch"/>
+                                                <f:selectItem itemLabel="Teclado" itemValue="Teclado"/>
+                                                <f:selectItem itemLabel="Auriculares" itemValue="Auriculares"/>
+                                                <f:selectItem itemLabel="Camara" itemValue="Camara"/>
+                                                <f:selectItem itemLabel="Mouse" itemValue="Mouse"/>
+                                            </p:selectOneMenu>
+                                        </div>  
+                                        <div class="col-md-6 mt-2">
+                                            <label for="Marca">Marca</label>
+                                            <p:selectOneMenu value="#{productoController.producto.marca}" >
+                                                <f:selectItem itemLabel="Selecciona una" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Acer" itemValue="Acer" />
+                                                <f:selectItem itemLabel="Asus" itemValue="Asus" />
+                                                <f:selectItem itemLabel="Apple" itemValue="Apple" />
+                                                <f:selectItem itemLabel="Compaq" itemValue="Compaq" />
+                                                <f:selectItem itemLabel="Samsung" itemValue="Samsung" />
+                                                <f:selectItem itemLabel="LG" itemValue="LG" />
+                                                <f:selectItem itemLabel="HP" itemValue="HP" />
+                                                <f:selectItem itemLabel="Toshiba" itemValue="Toshiba" />
+                                                <f:selectItem itemLabel="Xiaomi" itemValue="Xiaomi" />
+                                                <f:selectItem itemLabel="Huawei" itemValue="Huawei" />
+                                                <f:selectItem itemLabel="Canon" itemValue="Canon" />
+                                                <f:selectItem itemLabel="Panasonic" itemValue="Panasonic" />
+                                                <f:selectItem itemLabel="Genius" itemValue="Genius" />
+                                                <f:selectItem itemLabel="Challenger" itemValue="Challenger" />
+                                                <f:selectItem itemLabel="Nokia" itemValue="Challenger" />
+                                                <f:selectItem itemLabel="Lenovo" itemValue="Lenovo" />
+                                                <f:selectItem itemLabel="Kalley" itemValue="Kalley" />
+                                                <f:selectItem itemLabel="Sony" itemValue="Sony"/>
+                                                <f:selectItem itemLabel="Microsoft" itemValue="Microsoft"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+
+                                        <div class="col-md-6 mt-2">
+                                            <label for="stock">Stock</label>
+                                            <h:inputText value="#{productoController.producto.stockm}" class="form-control"/>
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <label for="precio">Precio</label>
+                                            <h:inputText value="#{productoController.producto.precio}" class="form-control mb-2"/>
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <label for="garantia">Garantia</label>
+                                            <h:inputText value="#{productoController.producto.garantia}" class="form-control"/>
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <label for="color">Color</label>
+                                            <p:selectOneMenu value="#{productoController.producto.color}">
+                                                <f:selectItem itemLabel="Seleccione uno" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Negro" itemValue="Negro"/>
+                                                <f:selectItem itemLabel="Blanco" itemValue="Blanco" />
+                                                <f:selectItem itemLabel="Azul" itemValue="Azul"/>
+                                                <f:selectItem itemLabel="Rojo" itemValue="Rojo"/>
+                                                <f:selectItem itemLabel="Amarillo" itemValue="Amarillo"/>
+                                                <f:selectItem itemLabel="Verde" itemValue="Verde"/>
+                                                <f:selectItem itemLabel="Naranja" itemValue="Naranja"/>
+                                                <f:selectItem itemLabel="Plateado" itemValue="Plateado"/>
+                                                <f:selectItem itemLabel="Dorado" itemValue="Dorado"/>
+                                                <f:selectItem itemLabel="Beish" itemValue="Beish"/>
+                                                <f:selectItem itemLabel="Morado" itemValue="Morado"/>
+                                                <f:selectItem itemLabel="Rosado" itemValue="Rosado"/>
+                                                <f:selectItem itemLabel="Cobre" itemValue="Cobre"/>
+                                                <f:selectItem itemLabel="Gris" itemValue="Gris"/>
+                                                <f:selectItem itemLabel="Marron" itemValue="Marron"/>
+                                                <f:selectItem itemLabel="Fucsia" itemValue="Fucsia"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h:outputText value="Descripcion"></h:outputText>
+                                            <h:inputTextarea rows="2" cols="60" value="#{productoController.producto.descripcion}" class="form-control" style="min-height:30px; max-height: 70px"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="col-md-12 mb-0 pb-0">
+                                            <label for="Almacenamiento">Almacenamiento</label>
+                                            <p:selectOneMenu value="#{productoController.producto.almacenamiento}">
+                                                <f:selectItem itemLabel="Seleccione uno" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="1GB" itemValue="1GB"/>
+                                                <f:selectItem itemLabel="2GB" itemValue="2GB"/>
+                                                <f:selectItem itemLabel="4GB" itemValue="4GB"/>
+                                                <f:selectItem itemLabel="8GB" itemValue="8GB"/>
+                                                <f:selectItem itemLabel="16GB" itemValue="16GB"/>
+                                                <f:selectItem itemLabel="32GB" itemValue="32GB"/>
+                                                <f:selectItem itemLabel="64GB" itemValue="64GB"/>
+                                                <f:selectItem itemLabel="128GB" itemValue="128GB"/>
+                                                <f:selectItem itemLabel="256GB" itemValue="256GB"/>
+                                                <f:selectItem itemLabel="512GB" itemValue="512GB"/>
+                                                <f:selectItem itemLabel="1TB" itemValue="1TB"/>
+                                                <f:selectItem itemLabel="2TB" itemValue="2TB"/>
+                                                <f:selectItem itemLabel="3TB" itemValue="3TB"/>
+                                                <f:selectItem itemLabel="4TB" itemValue="4TB"/>
+                                                <f:selectItem itemLabel="5TB" itemValue="5TB"/>
+                                                <f:selectItem itemLabel="6TB" itemValue="6TB"/>
+                                                <f:selectItem itemLabel="NA - No Aplica" itemValue="NA"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <label for="Memoria RAM">RAM (GB)</label>
+                                            <p:selectOneMenu value="#{productoController.producto.ram}">
+                                                <f:selectItem itemLabel="Selecciona uno" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="1GB" itemValue="1GB"/>
+                                                <f:selectItem itemLabel="2GB" itemValue="2GB"/>
+                                                <f:selectItem itemLabel="3GB" itemValue="3GB"/>
+                                                <f:selectItem itemLabel="4GB" itemValue="4GB"/>
+                                                <f:selectItem itemLabel="5GB" itemValue="5GB"/>
+                                                <f:selectItem itemLabel="6GB" itemValue="6GB"/>
+                                                <f:selectItem itemLabel="8GB" itemValue="8GB"/>
+                                                <f:selectItem itemLabel="12GB" itemValue="12GB"/>
+                                                <f:selectItem itemLabel="16GB" itemValue="16GB"/>
+                                                <f:selectItem itemLabel="32GB" itemValue="32GB"/>
+                                                <f:selectItem itemLabel="64GB" itemValue="64GB"/>
+                                                <f:selectItem itemLabel="NA-No Aplica" itemValue="NA"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="col-md-12 mt-2 pt-0">
+                                            <label for="Procesador">Procesador</label>
+                                            <p:selectOneMenu value="#{productoController.producto.procesador}">
+                                                <f:selectItem itemLabel="Selecciona uno" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Intel" itemValue="Intel" />
+                                                <f:selectItem itemLabel="AMD" itemValue="AMD"/>
+                                                <f:selectItem itemLabel="Exynos" itemValue="Exynos"/>
+                                                <f:selectItem itemLabel="Kirin" itemValue="Kirin"/>
+                                                <f:selectItem itemLabel="Qualcomm" itemValue="Qualcomm"/>
+                                                <f:selectItem itemLabel="NA-No Aplica" itemValue="NA"/>
+                                            </p:selectOneMenu>
+                                        </div>
+
+                                        <div class="col-md-12 mt-3">
+                                            <label for="SO">Sistema Operativo</label>
+                                            <p:selectOneMenu value="#{productoController.producto.sistemaoperativo}">
+                                                <f:selectItem itemLabel="Selecciona uno" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Windows" itemValue="Windows"/>
+                                                <f:selectItem itemLabel="Mac OS" itemValue="Mac Os"/>
+                                                <f:selectItem itemLabel="Linux" itemValue="Linux"/>
+                                                <f:selectItem itemLabel="Chrome Os" itemValue="Chrome Os"/>
+                                                <f:selectItem itemLabel="iOS" itemValue="iOS"/>
+                                                <f:selectItem itemLabel="Android" itemValue="Android"/>
+                                                <f:selectItem itemLabel="Firefox OS" itemValue="Firefox OS"/>
+                                                <f:selectItem itemLabel="HarmonyOS" itemValue="HarmonyOS"/>
+                                                <f:selectItem itemLabel="NA - No Aplica" itemValue="NA"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <label for="Imagen">Imagen del producto</label>
+                                            <p:fileUpload value="#{productoController.fileimages}" mode="simple" skinSimple="true" label="Subir imagen"/>
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-3 col-md-12">
+                                        <div class="form-group text-center">
+                                            <h:commandButton id="BguardarCPro" rendered="#{productoController.mostBtnEditarProducto}" value="Guardar" action="#{productoController.registrarCambiosProducto()}" image="/Imagenes/Botones/Bguardar.svg" class="mr-2" style="width: 47px; height: 47px;outline: transparent"/> 
+                                            <p:tooltip id="toolTipBguardarCambiosP" for="BguardarCPro" value="Guardar Cambios" position="top"/>
+
+                                            <h:commandButton id="BregistrarPro" rendered="#{productoController.mostBtnRegistrarProducto}" image="/Imagenes/Botones/Bregistrar.svg" value="Agregar" action="#{productoController.registrar()}" class="mr-2" style="width: 47px; height: 47px"/>
+                                            <p:tooltip id="toolTiBregistrarCambiosP" for="BregistrarPro" value="Registrar producto" position="top"/>
+
+                                            <h:commandButton id="BcancelarRegi" image="/Imagenes/Botones/Bcancelar.svg" value="Cancelar" action="#{productoController.cancelarRegistroProducto()}" class="mt-2" style="width: 47px; height: 47px"/>
+                                            <p:tooltip id="toolTipBcancelarRegi" for="BcancelarRegi" value="Cancelar registro" position="top"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+
+                            <!--PANEL DE MOSTRAR INFORMACIÓN DE UN PRODUCTO EN ESPECIFICO-->
+                            <p:panel class="col-md-9 mb-0 pb-0" rendered="#{productoController.mostInfoProducto}">
+                                <div class="tarjeta pb-4">
+                                    <div class="d-flex justify-content-center mb-1">
+                                        <label class="display-4 text-center" style="font-size: 1.5rem;"><b>Información del producto</b></label>
+                                    </div>
+                                    <div class="row">
+                                        <!--IMAGEN DE PRODUCTO-->
+                                        <div class="col-md-5 pl-4 d-flex justify-content-center">
+                                            <h:graphicImage value="/Imagenes/Productos/#{productoController.producto.id}.png" style="max-height: 250px; max-width: 250px" class="img-fluid"/>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="row">
+                                                <!--NOMBRE DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.5rem">
+                                                        <span class="fa fa-dropbox mr-2 mb-0 pb-0"></span>
+                                                        <label class="mb-0 pb-0"><b class="mb-0 pb-0">#{productoController.producto.nombre}</b>
+                                                        </label>
+                                                    </label>
+                                                </div>
+                                                <!--CODIGO SN DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                        <span class="fa fa-list-alt fa-lg mr-2"></span>
+                                                        <label class="mb-0" style="font-size: 1rem"><b>Codigo SN: #{productoController.producto.codigosn}</b></label>
+                                                    </label>
+                                                </div>
+                                                <!--CATEGORIA DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                        <span class="fa fa-list-ul fa-lg mr-2"></span>
+                                                        <label class="mb-0" style="font-size: 1rem"><b>Categoria: #{productoController.producto.categoria}</b></label>
+                                                    </label>
+                                                </div>
+                                                <!--MARCA DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                        <span class="fa fa-tags fa-lg mr-2"></span>
+                                                        <label class="mb-0" style="font-size: 1rem"><b>Marca: #{productoController.producto.marca}</b></label>
+                                                    </label>
+                                                </div>
+                                                <!--PRECIO DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                        <span class="fa fa-dollar fa-lg mr-3"></span>
+                                                        <label class="mb-0 pl-1" style="font-size: 1rem"><b>Precio: #{productoController.producto.precio}</b></label>
+                                                    </label>
+                                                </div>
+                                                <!--GARANTIA DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                        <span class="fa fa-calendar fa-lg mr-2"></span>
+                                                        <label class="mb-0 pl-1" style="font-size: 1rem"><b>Garantia: #{productoController.producto.garantia}</b></label>
+                                                    </label>
+                                                </div>
+                                                <!--ESTADO DE PRODUCTO-->
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                        <span class="fa fa-check-square fa-lg mr-3"></span>
+                                                        <label class="mb-0" style="font-size: 1rem"><b>Estado #{productoController.producto.estado}</b></label>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="d-flex justify-content-center mt-1">
+                                                    <label class="lead"><b>Especificaciones</b></label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label class="lead" style="font-size: 1.1rem">
+                                                            <span class="fa fa-paint-brush fa-lg mr-2"></span>
+                                                            <label class="mb-0 p-0" style="font-size: 1rem"><b>Color: #{productoController.producto.color}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="lead" style="font-size: 1.1rem">
+                                                            <span class="fa fa-dot-circle-o fa-lg mr-2"></span>
+                                                            <label class="mb-0 pb-0" style="font-size: 1rem"><b>Almacenamiento: #{productoController.producto.almacenamiento}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="lead" style="font-size: 1.1rem">
+                                                            <i class="fas fa-memory mr-2"></i>
+                                                            <label class="mb-0 pl-1" style="font-size: 1rem"><b>RAM: #{productoController.producto.ram}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="lead" style="font-size: 1.1rem">
+                                                            <i class="fas fa-compact-disc mr-2"></i>
+                                                            <label class="mb-0" style="font-size: 1rem"><b>SO: #{productoController.producto.sistemaoperativo}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="lead" style="font-size: 1.1rem">
+                                                            <i class="fas fa-microchip mr-2"></i>
+                                                            <label class="mb-0" style="font-size: 1rem"><b>Procesador: #{productoController.producto.procesador}</b></label>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-7 pl-0 ml-0">
+                                                <div class="d-flex justify-content-center mt-1">
+                                                    <label class="lead"><b>Descripcion</b></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="contenedor-descripcion">
+                                                        <p class="ml-3 lead" style="font-size: 1rem">#{productoController.producto.descripcion}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+                        </div>
+                    </div>
+                    <div class="col-md-12 fixed-bottom mb-4 mr-5 pr-5" style="text-align: right">
+                        <h:commandButton id="BagregarP" value="Agregar Producto" action="#{productoController.mostrarRegistroProducto()}" image="/Imagenes/Botones/BtnAgregar.svg" style="width: 50px; height: 50px"/>
+                        <p:tooltip id="toolTipBagregarP" for="BagregarP" value="Nuevo Producto" position="top" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </h:body>
+</html>
+

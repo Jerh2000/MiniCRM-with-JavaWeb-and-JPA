@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"/>
+        <style>
+            .abs-center {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 96vh;
+            }
+            .wrapper{
+                width: 100%;
+                min-height: 92%;
+                margin-top: 70px;
+
+                margin-right: 0px;
+                margin-left: 0px;
+                padding-top: 0px;
+
+                padding-left: 50px;
+                padding-right: 50px;
+                background: rgba(211,211,211,0.0);
+            }
+        </style>
+        <title>Registro de Cliente</title>
+    </h:head>
+    <h:body>
+
+        <!--BARRA DE NAVEGACION-->
+        <div class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand">
+                <h:graphicImage class="img-fluid" value="/Imagenes/Otras/LogoB.png" width="140" height="37" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="form-inline my-2 my-lg-0 ml-auto">
+
+                    <h:commandButton value="Iniciar sesión" action="#{usuarioController.cerrar()}" class="btn btn-outline-primary my-2 my-sm-0" />
+                </div>
+            </div>
+        </div>
+
+        <!--CONTENIDO DE LA VISTA DE REGISTRO DE CLIENTE-->
+        <p:growl id="messagess"/>
+        <div class="container-fluid">
+            <div class="row">
+                <!--SECCIÓN DE IMAGEN-->
+                <div class="col-md-6 mr-0 pr-0 mb-0">
+                    <div class="abs-center" style="background-color: #E0F6FE">
+                        <div class="text-center">
+                            <label class="lead mt-5 mb-4">¡Todo el mundo de la tecnología a un click!</label>
+                            <img src="../Imagenes/Otras/BackgroundSingUp.png" class="img-fluid mb-0 pb-0"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!--SECCIÓN DE FORMULARIO-->
+                <div class="abs-center col-md-6 pl-0 ml-0">
+                    <div class="wrapper">
+                        <div class="text-center mb-2">
+                            <img src="../Imagenes/Otras/LogoB.png" width="230" height="65" class="img-fluid"/>
+                            <p class="lead">¡Registrate! Es totalmente gratis.</p>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nombre">Nombre</label>
+                                <h:inputText a:placeholder="Escribe tu nombre..." id="nombre" value="#{clienteController.cliente.nombre}" class="form-control"></h:inputText>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="apellido">Apellido</label>
+                                <h:inputText value="#{clienteController.cliente.apellido}" class="form-control"></h:inputText>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="fecha">Fecha de nacimiento</label>
+                                <p:calendar value="#{clienteController.cliente.fechaNacimiento}"/>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="sexo">Sexo</label>
+                                <p:selectOneRadio unselectable="true" value="#{clienteController.cliente.sexo}">
+                                    <f:selectItem itemLabel="M" itemValue="Masculino" class="form-control"/>
+                                    <f:selectItem itemLabel="F" itemValue="Femenino" class="form-control"/>
+                                    <f:selectItem itemLabel="No decir" itemValue="Indefinido" class="form-control"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Dirección</label>
+                                <h:inputText value="#{clienteController.cliente.direccion}" class="form-control"></h:inputText>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Teléfono</label>
+                                <h:inputText value="#{clienteController.cliente.telefono}" class="form-control"></h:inputText>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Identificación</label>
+                                <h:inputText value="#{clienteController.cliente.identificacion}" class="form-control"></h:inputText>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>E-mail</label>
+                                <h:inputText value="#{clienteController.cliente.email}" class="form-control"></h:inputText>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Login</label>
+                                <h:inputText value="#{clienteController.cliente.login}" class="form-control"></h:inputText>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Password</label>
+                                <h:inputSecret value="#{clienteController.cliente.password}" class="form-control"></h:inputSecret>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h:commandButton value="Registrarme" action="#{clienteController.registrar()}" class="btn btn-success"></h:commandButton> 
+                        </div>
+                        <div class="text-center">
+                            <h:commandLink action="#{usuarioController.cerrar()}" value="¿Ya tienes una cuenta? Inicia sesión aquí"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $('.ui-calendar > input').addClass('form-control');
+            });
+        </script>
+    </h:body>
+</html>
+

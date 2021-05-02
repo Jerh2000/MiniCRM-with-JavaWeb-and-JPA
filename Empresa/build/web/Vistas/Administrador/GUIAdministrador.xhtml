@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"/>
+
+        <style>
+            .boton{
+                width:35px;
+                height:35px;
+                margin: 5px;
+                padding:1px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                border-radius: 50px;
+                font-size:11px;
+                line-height:32px;
+            }
+        </style>
+        <title>Inicio#{clienteController.tituloActual}</title>
+    </h:head>
+    <h:body>
+        <p:growl id="messages"/>
+        <!--BARRA DE NAVEGACIÓN ADMINISTRADOR-->
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">
+                <h:graphicImage value="/Imagenes/Otras/LogoB.png" width="140" height="37" class="img-fluid"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <h:commandLink class="nav-link" action="#{administradorController.verGestionProductos()}"  style="text-decoration: none">
+                            <span class="fa fa-dropbox  fa-lg"></span>
+                            Gestión productos
+                        </h:commandLink>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <h:commandLink class="nav-link" action="#{administradorController.verGestionEmpleados()}" style="text-decoration: none">
+                            <span class="fa fa-user-plus fa-lg"></span>
+                            Gestión empleados
+                        </h:commandLink>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-2">
+                    <li class="nav-item">
+                        <h:commandLink class="nav-link" action="#{administradorController.verVentas()}"  style="text-decoration: none">
+                            <span class="fas fa-shopping-basket" style="font-size: 1.2rem"></span>
+                            Gestion Ventas
+                        </h:commandLink>
+                    </li>
+                </ul>
+
+                <!--MENUS DE DE USUARIO-->
+                <div class="my-2 my-lg-0 ml-auto">
+                    <label for="nombre" class="mr-sm-2 text-white">Admin #{usuarioController.administrador.nombre} #{usuarioController.administrador.apellido}</label>
+                    <h:commandButton image="/Imagenes/FotosUsuario/#{usuarioController.administrador.id}.png" class="btn btn-primary mr-2 boton" action="#{administradorController.verPerfilAdministrador()}" />
+                    <h:commandButton image="/Imagenes/Botones/logout.svg" action="#{usuarioController.cerrar()}" class="btn btn-danger ml-2 boton"/>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--CONTENEDOR DEL CONTENIDO DE CADA OPCION DE MENU-->
+        <br></br>
+        <div class="mt-5">
+            <p:layout style="min-width:400px;min-height:570px;">
+                <p:layoutUnit position="west" resizable="false" size="0" minSize="0" maxSize="0" visible="false" >
+
+                    <h:commandButton value="Empleados" style="width: 70px; height:70px" />
+
+                    <p:separator/>
+                    <h:commandButton value="Productos" action="#{administradorController.verGestionEmpleados()}" style="width: 70px; height:70px"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <ui:include src="#{administradorController.paginaActual}">
+
+                    </ui:include>
+                </p:layoutUnit>
+            </p:layout>
+        </div>
+
+
+    </h:body>
+</html>
+
+

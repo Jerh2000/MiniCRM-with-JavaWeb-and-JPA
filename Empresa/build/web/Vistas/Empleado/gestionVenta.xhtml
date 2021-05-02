@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Empleado - Ventas</title>
+        <style>
+            .media{
+                padding-top: 4px;
+            }
+            .media img{
+                margin-right: 20px;
+            }
+            .media .nombre{
+
+                margin-bottom: 0px;
+            }
+            .media .nombre span{
+                color: #464646;
+            }
+            .ui-layout-unit {
+                border: 0;
+            }
+            body .ui-datagrid-no-border .ui-datagrid-content {
+                border: none;
+            }
+            body .ui-datagrid .ui-datagrid-header{
+                border: none;
+                background-color:#F7F7F7;
+            }
+            .contenedor{
+                width: 100%;
+                height: 460px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .contenedor-detalle{
+                width: 100%;
+                height: 440px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor-detalle::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-detalle::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .contenedor-descripcion{
+                height: 100px;
+                overflow: auto;
+            }
+            .contenedor-descripcion::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-descripcion::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+            .ui-layout-unit .ui-layout-unit-content::-webkit-scrollbar{
+                width: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content ::-webkit-scrollbar-thumb{
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+
+
+            body .ui-panel .ui-panel-content{
+                border: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            body .ui-layout-unit {
+                border: none;
+            }
+            body .ui-separator{
+                border-color: #ECE8E8;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <!--CONTENEDOR DE LA LISTA DE COMPRAS -->
+                    <div class="col-md-12" style="background-color:#F7F7F7; text-align: center;">
+                        <label class="display-4 py-2" style="font-size: 1.3rem">Mis compras</label>
+                    </div>
+
+
+                    <div class="contenedor">
+                        <p:dataGrid var="compra" columns="1" class="ui-datagrid-no-border" emptyMessage="No hay compras aun" value="#{ventaController.ventas}" 
+                                    rows="500"  id="comprasT">
+                            <!--PANEL DE TODAS COTIZACIONES-->
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="bg-success" style="width: 10px; border-radius: 4px;">
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="lead mb-0"><b>Codigo: #{compra.codigo}</b>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="lead mb-0" style="font-size: 1rem"><b>Fecha: #{compra.fecha}</b></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="nombre lead" style="font-size: 1rem">Cliente: #{compra.cliente.nombre} #{compra.cliente.apellido} </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="BverCompra" value="Ver Compra" action="#{ventaController.obtenerDetallesDeCompra(compra)}" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" />
+                                    <p:tooltip id="toolTipBVerCompra" for="BverCompra" value="Ver detalles de compra" position="top"/>
+                                </div>
+                            </div>
+                        </p:dataGrid>
+
+                    </div>
+                </div>
+
+
+                <!--Seccion de detalles de compra-->
+                <div class="container col-md-8 m-0 p-0">
+                    <div class="d-flex justify-content-center">
+                        <label class="lead">Detalles de compra <b> #{ventaController.codigoVenta}</b></label>
+                    </div>
+                    <div class="contenedor-detalle m-0 p-0">
+                        <p:dataGrid  var="detalle" columns="1" class="ui-datagrid-no-border m-0 p-0" value="#{ventaController.detallesVentasConsulta}"
+                                     rows="500"  id="detventa" emptyMessage="No ha seleccionado una compra">
+                            <div class="container m-0 p-0 mt-2">
+                                <div class="row m-0">
+                                    <div class="col-md-3 d-flex justify-content-center">
+                                        <div style="max-height: 130px; max-width: 120px;">
+                                            <h:graphicImage value="/Imagenes/Productos/#{detalle.producto.id}.png" class="img-fluid"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8" >
+                                        <div class="row">
+                                            <div class="col-md-8 m-0 p-0">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-list-alt fa-lg mr-2"></span>
+                                                            <label class="mb-0" style="font-size: 1rem"><b>SN - #{detalle.producto.codigosn}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-dropbox fa-lg mr-2 mb-0 pb-0"></span>
+                                                            <label class="mb-0 pb-0" style="font-size: 1rem"><b>#{detalle.producto.nombre}</b>
+                                                            </label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-tags fa-lg mr-2"></span>
+                                                            <label class="mb-0" style="font-size: 1rem"><b>#{detalle.producto.marca}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1rem">
+                                                            <span class="fa fa-calendar fa-lg mr-2"></span>
+                                                            <label class="mb-0 pl-1" style="font-size: 1rem"><b>#{detalle.producto.garantia}</b></label>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="lead" style="font-size: 1rem">
+                                                            <span class="fa fa-paint-brush fa-lg mr-2"></span>
+                                                            <label class="mb-0 p-0" style="font-size: 1rem"><b>#{detalle.producto.color}</b></label>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-8">
+                                                        <label class="lead mb-0 pb-2" style="font-size: 1.1rem">
+                                                            <span class="fa fa-dollar fa-lg mr-1"></span>
+                                                            <h:outputText value="#{detalle.producto.precio}" class="mb-0 pl-1" style="font-size: 1rem">
+                                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                                            </h:outputText>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h:outputLabel class="lead text-danger" style="font-size: 1rem" rendered="#{detalle.producto.promocion != null}" value="-#{detalle.producto.promocion.descuento}% Dcto"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="row">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p:separator/>
+                            </div>
+
+                        </p:dataGrid>
+                    </div>
+                    <!--SECCIÓN DE VALORES Y CUENTAS-->
+                    <div class="col-md-12 mt-1">
+                        <p:panel class="m-0 p-0">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label class="lead mb-0 mr-2 font-weight-bold" style="font-size: 1rem">Subtotal:</label> 
+                                            <h:outputText value="#{ventaController.precioVentaSinIva}" class="lead mb-0 font-weight-bold" style="font-size: 1rem">
+                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                            </h:outputText>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="lead mb-0 mr-1 font-weight-bold" style="font-size: 1rem">Total:</label>
+                                            <h:outputText value="#{ventaController.precioVentaIVa}" class="lead mb-0 font-weight-bold" style="font-size: 1rem">
+                                                <f:convertNumber currencySymbol="$" groupingUsed="true" maxFractionDigits="0" type="currency" locale="es_CO" />
+                                            </h:outputText>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

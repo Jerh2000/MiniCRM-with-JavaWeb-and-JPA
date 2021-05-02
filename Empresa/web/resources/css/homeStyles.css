@@ -1,0 +1,214 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12/11/2020, 01:01:57 PM
+    Author     : Jairo
+*/
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+header{
+    background: #9CECFB;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    height: 600px;
+    padding: 30px;
+    width: 100%;
+}
+
+.containerr{
+    width: 95%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.img{
+    display: block;
+    
+    height: 450px;
+    object-fit: cover;
+    animation: arriba 1s ease-in;
+}
+
+.textos{
+    width: 100%;
+    color:#fff;
+
+}
+
+.textos h1{
+    font-size:50px;
+    animation: moverDerecha 1s ease-in;
+    text-decoration: none;
+}
+.textos h2{
+    font-size:30px;
+    animation: moverIzquierda 1s ease-in;
+}
+
+.textos a{
+    display: inline-block;
+    color:#fff;
+    font-weight: 300;
+    text-decoration: none;
+    margin-top: 30px;
+    border: 1px solid #fff;
+    width: 150px;
+    border-radius: 3px;
+    text-align: center;
+    padding: 10px 0;
+    animation: arriba 1s ease-in;
+
+}
+
+.wave{
+    height: 100%;
+    width: 100%;
+    background: #9CECFB;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    margin: 0px;
+}
+
+.enlaces{
+    position: fixed;
+    display: flex;
+    top: 0;
+    background: #000;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    right: 0;
+    flex-direction: column;
+    width: 100%;
+    transition: all 1s ease;
+    background: #9CECFB;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.uno{
+
+    -webkit-clip-path: circle(0% at 0 0);
+    clip-path: circle(0% at 0 0);
+
+}
+
+.dos{
+
+    -webkit-clip-path: circle(150% at 0 0);
+    clip-path: circle(150% at 0 0);
+
+}
+
+@keyframes moverIzquierda{
+    0%{
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moverDerecha{
+    0%{
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes arriba{
+    0%{
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@media screen and (max-width:1000px){
+    img{
+        height: 400px;
+    }
+
+}
+
+@media screen and (max-width:800px){
+    img{
+        height: 370px;
+    }
+    .textos h1{
+        font-size: 70px;
+    }
+
+    .textos h2{
+        font-size: 25px;
+    }
+
+}
+
+@media screen and (max-width:700px){
+    img{
+        height: 250px;
+    }
+    .textos h1{
+        font-size: 40px;
+    }
+
+    .textos h2{
+        font-size: 15px;
+    }
+
+}
+
+@media screen and (max-width:450px){
+    .container{
+        width: 100%;
+        flex-wrap: wrap-reverse;
+        justify-content: center;
+    }
+    .textos{
+        width: 100%;
+        text-align: center;
+    }
+    .textos h1{
+        font-size: 60px;
+    }    
+}
+
+@media screen and (max-width:340px){
+    img{
+        height: 160px;
+    }
+    .textos h1{
+        font-size: 35px;
+    }
+    .textos a{
+        width: 120px;
+    }
+    .textos h2{
+        font-size: 15px;
+    }
+
+}

@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gestión Producto Administrador</title>
+        <style>
+            .media{
+                padding-top: 4px;
+            }
+            .media img{
+                margin-right: 20px;
+            }
+            .media .nombre{
+
+                margin-bottom: 0px;
+            }
+            .media .nombre span{
+                color: #464646;
+            }
+            .ui-layout-unit {
+                border: 0;
+            }
+            body .ui-datagrid-no-border .ui-datagrid-content {
+                border: none;
+            }
+            body .ui-datagrid .ui-datagrid-header{
+                border: none;
+                background-color:#F7F7F7;
+            }
+            .contenedor{
+                width: 100%;
+                height: 510px;
+                padding: 10px;
+                overflow: auto;
+            }
+            .contenedor::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .contenedor-descripcion{
+                height: 75px;
+                overflow: auto;
+            }
+            .contenedor-descripcion::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .contenedor-descripcion::-webkit-scrollbar-thumb {
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content::-webkit-scrollbar{
+                width: 5px;
+            }
+            .ui-layout-unit .ui-layout-unit-content ::-webkit-scrollbar-thumb{
+                background: #ECE8E8;
+                border-radius: 5px;
+            }
+            body .ui-panel .ui-panel-content{
+                border: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            body .ui-layout-unit {
+                border: none;
+            }
+            .tarjeta{
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+                margin-top: 0px;
+                padding: 10px;
+                padding-bottom: 0;
+                margin-bottom: 0px;
+                height: 497px;
+                border-radius: 20px;
+            }
+            .tarjetaF{
+                box-shadow: 1px 1px 3px 3px  rgba(149, 60, 167, 0.2) ; 
+                margin-top: 0px;
+                padding: 10px;
+                padding-bottom: 0;
+                margin-left: 0px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                height: 497px;
+                width: 100%;
+                border-radius: 20px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <!--CONTENEDOR DE LA LISTA DE PRODUCTOS REGISTRADOS-->
+                    <div class="col-md-12" style="background-color:#F7F7F7; text-align: center;">
+                        <label class="display-4" style="font-size: 2rem">Productos</label>
+                    </div>
+                    <div class="contenedor">
+                        <p:dataGrid var="pro" columns="1" class="ui-datagrid-no-border" value="#{productoController.productos}"
+                                    rows="500"  id="empleados">
+                            <div class="media">
+                                <h:graphicImage value="/Imagenes/Productos/#{pro.id}.png" style="height: 64px; width: 64px"/>
+                                <div class="media-body">
+                                    <p class="nombre lead"><b>#{pro.nombre}
+                                        </b>
+                                    </p>
+                                    <p class="mb-0 lead" style="font-size: 0.9rem">
+                                        Marca: #{pro.marca}
+                                    </p>
+                                </div>
+                                <div class="align-self-center">
+                                    <h:commandButton id="Bver" value="Ver" class="mr-1" image="/Imagenes/Botones/BtnVer.svg" style="width: 35px; height: 35px" action="#{productoController.mostrarInfoProducto(pro)}" />
+                                    <p:tooltip id="toolTipBVer" for="Bver" value="Ver información del producto" position="top"/>
+                                    <!--                                    <p:tooltip id="toolTipBeditar" for="Beditar" value="Editar empleado" position="top"/>
+                                                                        <h:commandButton id="Beditar" value="Edit"  image="/Imagenes/Botones/BtnEditar.svg" style="width: 35px; height: 35px"/>-->
+                                </div>
+                            </div>
+                        </p:dataGrid>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 mb-0 mt-0">
+                    <div class="container mb-0 mt-0">
+                        <div class="text-center mb-0 pb-0 mt-0"><label class="display-4 mb-0 pb-0 mt-0" style="font-size: 25px">Gestión Productos</label></div>
+                        <div class="row mb-0">
+                            <!--SECCION INFORMACION DE PRODUCTO-->
+                            <p:panel rendered="#{productoController.mostInfoProducto}" class="col-md-6 pl-0 ml-0 mt-0 ui-panel-content">
+                                <div class="tarjeta">
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <label class="display-4 text-center" style="font-size: 1.5rem;"><b>Información del producto</b></label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="abs-center col-md-12 d-flex justify-content-center">
+                                            <div style="max-height: 100px; max-width: 100px">
+                                                <h:graphicImage value="/Imagenes/Productos/#{productoController.producto.id}.png" class="img-fluid" style="max-height: 100px; max-width: 100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-1">
+                                            <div class="row">
+                                                <!--PRIMERA FILA-->
+                                                <div class="col-md-12 mb-2 text-center">
+                                                    <label class="lead mb-0 pb-2" style="font-size: 1.4rem">
+                                                        <span class="fa fa-dropbox mr-2 mb-0 pb-0 ml-3"></span>
+                                                        <label class="mb-0 pb-0"><b class="mb-0 pb-0">#{productoController.producto.nombre}</b>
+                                                        </label>
+                                                    </label>
+                                                </div>
+                                                <!--SEGUNDA FILA-->
+                                                <div class="col-6 mb-0 pb-2">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-tags fa-lg mr-2 ml-3"></span>
+                                                        <label class="mb-0">#{productoController.producto.marca}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-6 mb-0 pb-2">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-dollar fa-lg mr-2"></span>
+                                                        <label class="mb-0">#{productoController.producto.precio}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-6 mb-0 pb-1">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-list-ul fa-lg mr-2 ml-3"></span>
+                                                        <label class="mb-0">#{productoController.producto.categoria}</label>
+                                                    </label>
+                                                </div>
+                                                <!--TERCERA FILA-->
+                                                <div class="col-6 mb-0 pb-2">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-archive fa-lg mr-2"></span>
+                                                        <label class="mb-0">#{productoController.producto.stockm}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-6 mb-0 pb-2">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-check-square fa-lg mr-2 ml-3"></span>
+                                                        <label class="mb-0">#{productoController.producto.estado}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-6 mb-0 pb-2">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-paint-brush fa-lg mr-2"></span>
+                                                        <label class="mb-0">#{productoController.producto.color}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 mb-0 pb-0" style="font-size: 0.99rem">
+                                                    <label class="lead" style="font-size: 0.99rem">
+                                                        <span class="fa fa-pencil-square-o mr-1 ml-3"></span>
+                                                        Descripción
+                                                    </label>
+                                                    <div class="contenedor-descripcion mt-0">
+                                                        <p class="ml-3 lead" style="font-size: 1rem">#{productoController.producto.descripcion}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="row d-flex justify-content-center mt-2">
+                                                        <h:commandButton id="Bpromocionar" value="Promocionar" action="#{promocionController.mostrarRegistroPromocion()}" class="mr-1" image="/Imagenes/Botones/Bdescuento.svg" style="width: 47px; height: 47px"/>
+                                                        <p:tooltip id="toolTipBEditar2" for="Bpromocionar" value="Agregar promoción" position="top"/>
+                                                        <h:commandButton rendered="#{productoController.producto.estado.equals('Activo')}" id="Binactivar" value="Inactivar" action="#{productoController.inactivarProducto(productoController.producto)}" image="/Imagenes/Botones/BtnDesactivar.svg" style="width: 47px; height: 47px"/>
+                                                        <p:tooltip id="toolTipBinactivar" for="Binactivar" value="Inactivar producto" position="top"/>
+                                                        <h:commandButton rendered="#{productoController.producto.estado.equals('Inactivo')}" id="Bactivar" value="Inactivar" action="#{productoController.activarProducto(productoController.producto)}" image="/Imagenes/Botones/Bregistrar.svg" style="width: 47px; height: 47px"/>
+                                                        <p:tooltip id="toolTipBactivar" for="Bactivar" value="Activar producto" position="top"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </p:panel>
+
+                            <p:panel rendered="#{promocionController.mostRegistrarPromocion}" class="col-md-6 pl-0 ml-0 mr-0 mt-0 pl-0 pr-0 ui-panel-content">
+                                <div class="tarjetaF">
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <label class="display-4 text-center" style="font-size: 1.5rem;"><b>Agregar promoción</b></label>
+                                    </div>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Fecha de inicio de la promoción</label>
+                                                    <p:calendar value="#{promocionController.promocion.fechaI}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Fecha de fin de la promoción</label>
+                                                    <p:calendar value="#{promocionController.promocion.fechaF}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Porcentaje de descuento</label>
+                                                    <h:inputText value="#{promocionController.promocion.descuento}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group text-center">
+                                                    <h:commandButton value="Add" action="#{promocionController.registrarPromocion(productoController.producto)}" class="mr-1" image="/Imagenes/Botones/Bguardar.svg" style="width: 47px; height: 47px"/>
+                                                    <h:commandButton value="cancelar" action="#{promocionController.cancelarRegistroPromocion()}" image="/Imagenes/Botones/Bcancelar.svg" style="width: 47px; height: 47px"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+
+
+
+<!--                            <p:panel rendered="#{productoController.mostInfoProducto}" class="col-md-12 pl-0 ml-0 mt-0 ui-panel-content">
+                                <div class="tarjeta">
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <label class="display-4 text-center" style="font-size: 2rem;">Informacion del empleado</label>
+                                    </div>
+                                    <div class="row">
+                                        IMAGEN DEL PRODUCTO
+                                        <div class="abs-center col-md-4" style="max-height: 100px">
+                                            <h:graphicImage value="/Imagenes/Productos/#{productoController.producto.id}.png" class="img-fluid"/>
+                                        </div>
+                                        INFORMACION DEL PRODUCTO
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                PRIMERA FILA
+                                                <div class="col-md-12">
+                                                    <label class="lead mb-0 pb-0" style="font-size: 2.3rem">
+                                                        <span class="fa fa-dropbox mr-2 mb-0 pb-0"></span>
+                                                        <label class="mb-0 pb-0"><b class="mb-0 pb-0">#{productoController.producto.nombre}</b>
+                                                        </label>
+                                                    </label>
+                                                </div>
+                                                SEGUNDA FILA
+                                                <div class="col-md-3 mb-0">
+                                                    <label class="lead" style="font-size: 1.4rem">
+                                                        <span class="fa fa-tags mr-2"></span>
+                                                        <label>#{productoController.producto.marca}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <label class="lead" style="font-size: 1.4rem">
+                                                        <span class="fa fa-list-ul mr-2"></span>
+                                                        <label>#{productoController.producto.categoria}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="lead" style="font-size: 1.4rem">
+                                                        <span class="fa fa-dollar mr-2"></span>
+                                                        <label>#{productoController.producto.precio}</label>
+                                                    </label>
+                                                </div>
+                                                TERCERA FILA
+                                                <div class="col-md-6 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.4rem">
+                                                        <span class="fa fa-check-square-o mr-2 m-0"></span>
+                                                        <label class="mb-0">#{productoController.producto.stockm}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12 mb-0 pb-0">
+                                                    <label class="lead" style="font-size: 1.4rem">
+                                                        <span class="fa fa-check-square fa-lg"></span>
+                                                        <label>#{productoController.producto.estado}</label>
+                                                    </label>
+                                                </div>
+                                                CUARTA FILA
+                                                <div class="col-md-12 mt-0 pt-0">
+                                                    <label class="lead" style="font-size: 1.4rem">
+                                                        <span class="fa fa-home fa-lg mr-1"></span>
+                                                        <label>#{empleadoController.empleado.direccion}</label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="lead" style="font-size: 1.3rem">
+                                                        <span class="fa fa-check-square fa-lg mr-1"></span>
+                                                        <label>#{empleadoController.empleado.estado}</label>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-0">
+                                            <div class="row d-flex justify-content-center mt-4">
+                                                <h:commandButton id="Beditar2" value="Editar" action="#{empleadoController.editarEmpleado(empleadoController.empleado)}" class="mr-1" image="/Imagenes/Botones/BtnEditar.svg" style="width: 55px; height: 55px"/>
+                                                <p:tooltip id="toolTipBEditar2" for="Beditar2" value="Editar empleado" position="top"/>
+                                                <h:commandButton id="Binactivar" value="Inactivar" image="/Imagenes/Botones/BtnDesactivar.svg" style="width: 55px; height: 55px"/>
+                                                <p:tooltip id="toolTipBinactivar" for="Binactivar" value="Inactivar cuenta" position="top"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+            $(function () {
+                $('.ui-calendar > input').addClass('form-control');
+            });
+        </script>
+    </h:body>
+</html>
+
